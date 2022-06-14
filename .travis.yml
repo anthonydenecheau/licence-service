@@ -20,9 +20,16 @@ env:
   - secure: UpB+LtBegRC5/OcYmNyVVjOVdnJj5JCh9FjCqxPOch5CXuCEAz9B79adg07R0MDOh8b7y0wYbBdK4dxuHBXOfc/n9GWkcPzNFKLoYMTlFlbVCcAz3vEyUL3lRNowZ4+VhMONj18HgMpDFhPwtoT2wvBGAonnKV44CT5itO8xXUaoapQG4EwwN2GUTMeS6+ubkYinCbcAj6HutCKAPvcqLuJehqk1Wbw/fwxnDE8/mEO6VhwAFEQGY1eo61PFqi+m5GPQpFdSHLWI3EIG8jgPNlqH4VsujwdttinCgk1RM6T9lTSa06hi/LTK2zyoFMLaNUafKAkZGKWX4Hx3Vp4L8+Kq1rjwRBfdA3fadC38wObxYK5gXPkfkmapFQRvni0JryyhnI4o47JHQXaWPZCPZXhRnvAsbSDHYD7NchC//iEtWnG9XYf5N3CmsYkRZMVmlWbu/vwZHdd5dVof4vnEb/biV1YjB38cANdl1k8HPsinXM1Cqz399jSLcvWrBwxHlJt7KhWL5rYljUsnmFWS5PEfnSz7KPW4YAmu8EmqgmVAJB/TpQk9hmajpYO6sIx9GjR0ZlIlR0OJ/mT+eWFkRQZqDQoOXjSGrJ15OtEShWFxTAGd3faXOvhNf9NP5CUnzd7uUYqHbVoi/Jk9q3TFg+AKBSmrdPuM+EGrn1dv28s=
   - secure: gaoRBKWGpn8C3u2y4X7mCUsnXf96Kn3AbfLXSRMVS6gHa1IooElLXhLu4HGPgI8lXEJPEEBRwg9vHOCup/YjzEAhKuhWPpTbz2t9T4Wvb6jXsRMuNAUji4OAKiz0Loa00lcm4Brms9gxss9NyZpmBwecmZMHjTQ9cXBSqCtbiF3gIZDQPTP2wx2wLGP13K7OjQRm+z8R8IL7gT0GX7A2gH3a1473YyRpKark1EfmdxqaX19B4SKCg9FjxEK9r0GxWdzaLeaRlGESPg4l5O5qIlUzJiW3cULCkr8//2UTaAULGHcyVYlwYPHGhMC4drLex5cFjzvy4XVHYdsKe6tXAJdxpCASZ2+CJKWqRmPmV53p/m+bRugZfCeB4reoTAjDVc7Qcgp3sX2Go+X7Xi4P1nSJfJhqqLf1NuwhvmJoYSZ6NPUTrE9XiP4hlEW8MvPW9o3iiF9+wIyAvnbAXPDOHmygiT+JwFS/DZiZ6jOnuMgUJI+VVuGX2ij5N05XdV9yFcPcd6mIT73zdRqX2Tv5iLebnpC/GjeYlJh5cy3oIBad0NuRDXGmlFYMkQHl/2i2/5wwC4j0WI69gXy7ej0mfw2uByXjPBCRbyHzIByXlidhkMFLdj7V0bPuEcW2jYcNWfcmWn4nXKv/HEMTd98lnW2wRhXwsd8oseXeSW17lqc=
 before_install:
-- gem install travis -v 1.8.5 --no-rdoc --no-ri
+- ruby -v
+- gem install travis -v 1.8.9 --no-document
 - export BUILD_NAME=scc-licence-service-$TRAVIS_BRANCH-$(date -u "+%Y%m%d%H%M%S")-$TRAVIS_BUILD_NUMBER
-script:
-- sh scripts/travis/tag_build.sh
-- sh scripts/travis/build_services.sh
-- sh scripts/travis/deploy_to_docker_hub.sh
+jobs:
+  include:
+  - stage: build and deploy
+    script:
+    - sh scripts/travis/tag_build.sh
+    - sh scripts/travis/build_services.sh
+    - sh scripts/travis/deploy_to_docker_hub.sh
+stages:
+- name: build and deploy
+  if: branch = master
