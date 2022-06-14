@@ -1,0 +1,21 @@
+language: java
+cache:
+  directories:
+  - "$HOME/.m2"
+jdk:
+- oraclejdk8
+sudo: required
+services:
+- docker
+notifications:
+  email:
+  - anthony.denecheau@gmail.com
+  on_success: always
+  on_failure: always
+before_install:
+- gem install travis -v 1.8.5 --no-rdoc --no-ri
+- export BUILD_NAME=scc-licence-service-$TRAVIS_BRANCH-$(date -u "+%Y%m%d%H%M%S")-$TRAVIS_BUILD_NUMBER
+script:
+- sh scripts/travis/tag_build.sh
+- sh scripts/travis/build_services.sh
+- sh scripts/travis/deploy_to_docker_hub.sh
